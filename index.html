@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1b2638">
+<title>Audioguía: Jorge Cafrune, el cantor del pueblo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,700;0,800;1,500&family=Alegreya+Sans:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#1b2638; --ink:#f1ede3; --muted:#b9bfcb;
+    --gold:#e0a634; --wine:#8c2f39; --green:#3f7a5a;
+    --serif:"Alegreya",Georgia,"Times New Roman",serif;
+    --sans:"Alegreya Sans",system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;padding-top:env(safe-area-inset-top,0px);background:var(--bg);color:var(--ink);
+       font-family:var(--sans);font-size:1.125rem;line-height:1.5}
+
+  /* Franja que imita un tejido del noroeste */
+  .tejido{height:14px;background:repeating-linear-gradient(90deg,
+    var(--wine) 0 10px, var(--ink) 10px 14px, var(--gold) 14px 30px,
+    var(--green) 30px 40px, var(--ink) 40px 44px, var(--wine) 44px 54px)}
+
+  main{max-width:30rem;margin:0 auto;padding:2.25rem 1.25rem 2.5rem}
+
+  h1{font-family:var(--serif);font-weight:800;font-size:clamp(2.8rem,13vw,3.8rem);
+     line-height:1;letter-spacing:-.01em;text-align:center;margin:0}
+  .sub{font-family:var(--serif);font-style:italic;font-weight:500;font-size:1.6rem;
+       color:var(--gold);text-align:center;margin:.4rem 0 .5rem}
+  .lugar{text-align:center;color:var(--muted);font-size:1.05rem;margin:0 auto 1.9rem;max-width:22rem}
+
+  .foto{margin:0;border-radius:50% 50% 1rem 1rem / 30% 30% 1rem 1rem;overflow:hidden;
+        outline:2px solid var(--gold);outline-offset:6px;aspect-ratio:3/4;background:#243249}
+  .foto img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 85%}
+
+  .player{position:relative;margin:-2.6rem .6rem 0;background:var(--ink);color:var(--bg);
+          border-radius:1.1rem;padding:1rem 1.1rem;display:grid;grid-template-columns:auto 1fr;
+          gap:.95rem;align-items:center;box-shadow:0 12px 32px rgba(0,0,0,.4)}
+  .play{width:68px;height:68px;border-radius:50%;border:0;background:var(--gold);color:var(--bg);
+        display:grid;place-items:center;cursor:pointer}
+  .play:hover{background:#eab547}
+  .play:focus-visible,input[type=range]:focus-visible{outline:3px solid var(--wine);outline-offset:3px}
+  .play svg{width:30px;height:30px;fill:currentColor}
+  .play .i-pause{display:none}
+  .playing .i-play{display:none}
+  .playing .i-pause{display:block}
+  .titulo{font-family:var(--serif);font-weight:700;font-size:1.3rem;line-height:1.1;margin:0}
+
+  input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:26px;margin:.15rem 0 0;
+        background:transparent;cursor:pointer}
+  input[type=range]::-webkit-slider-runnable-track{height:6px;border-radius:3px;
+        background:linear-gradient(to right,var(--wine) var(--p,0%),#c9c4b6 var(--p,0%))}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;margin-top:-6px;
+        border-radius:50%;background:var(--wine);border:2px solid var(--ink)}
+  input[type=range]::-moz-range-track{height:6px;border-radius:3px;background:#c9c4b6}
+  input[type=range]::-moz-range-progress{height:6px;border-radius:3px;background:var(--wine)}
+  input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:var(--wine);border:2px solid var(--ink)}
+  .tiempos{display:flex;justify-content:space-between;font-size:.95rem;color:#4b5567;
+           font-variant-numeric:tabular-nums;margin-top:-.1rem}
+  .aviso{margin:.9rem .6rem 0;text-align:center;color:var(--muted);font-size:1rem}
+
+  details{margin-top:2.2rem;border-top:1px solid #34425a}
+  summary{cursor:pointer;list-style:none;padding:.9rem 0;font-family:var(--serif);font-weight:700;
+          font-size:1.3rem;color:var(--gold)}
+  summary::-webkit-details-marker{display:none}
+  summary::after{content:"+";float:right;font-weight:400}
+  details[open] summary::after{content:"\2013"}
+  summary:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+  .texto p{margin:0 0 1rem;line-height:1.65;color:#e6e2d8;max-width:60ch}
+
+  footer{margin-top:2rem;padding-top:1.1rem;border-top:1px solid #34425a;color:var(--muted);
+         font-size:.98rem;text-align:center}
+  footer a{color:var(--gold)}
+</style>
+</head>
+<body>
+<div class="tejido" aria-hidden="true"></div>
+
+<main>
+  <h1>Jorge Cafrune</h1>
+  <p class="sub">El cantor del pueblo</p>
+  <p class="lugar">Monumento en la plaza Domingo Teófilo Pérez, El Carmen, Jujuy</p>
+
+  <figure class="foto">
+    <img src="monumento.jpg" alt="Monumento a Jorge Cafrune: figura sentada con sombrero y guitarra, frente a la iglesia de El Carmen">
+  </figure>
+
+  <section class="player" id="player" aria-label="Reproductor de la audioguía">
+    <button class="play" id="play" type="button" aria-label="Reproducir audio">
+      <svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z"/></svg>
+      <svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="5" width="4.2" height="14" rx="1"/><rect x="13.8" y="5" width="4.2" height="14" rx="1"/></svg>
+    </button>
+    <div>
+      <p class="titulo">Escuchá su historia</p>
+      <input id="barra" type="range" min="0" max="1000" value="0" step="1" aria-label="Posición del audio">
+      <div class="tiempos"><span id="actual">0:00</span><span id="total">0:00</span></div>
+    </div>
+  </section>
+  <p class="aviso" id="aviso" role="status" hidden>No se pudo cargar el audio. Recargá la página para intentar de nuevo.</p>
+
+  <audio id="audio" controls preload="metadata" src="audio-cafrune.mp3"></audio>
+
+  <details>
+    <summary>Leer el texto del audio</summary>
+    <div class="texto">
+      <!-- Reemplazá este texto por el guion final de tu audio -->
+      <p>Estás frente al monumento a Jorge Cafrune, en la plaza Domingo Teófilo Pérez, en El Carmen.</p>
+      <p>Jorge Antonio Cafrune nació el 8 de agosto de 1937 en Perico, Jujuy. Lo apodaban “El Turco”, y con los años el pueblo lo llamó “el cantor del pueblo”.</p>
+      <p>Era un hombre de campo, de voz profunda y presencia imponente, que vestía como gaucho y casi nunca se quitaba su sombrero de ala ancha.</p>
+      <p>En 1962 subió al escenario del Festival de Cosquín y fue premiado como Revelación. Tres años después, en 1965, fue él quien presentó a una joven Mercedes Sosa en ese mismo escenario. Un gesto de un artista generoso.</p>
+      <p>Eran los años de la llamada edad dorada del folclore, y Cafrune fue una de sus grandes figuras. Sus canciones hablaban de las injusticias sociales y daban voz a quienes tenían menos.</p>
+      <p>En 1967 recorrió el país a caballo para conocer sus tradiciones y su gente, y fue registrando el viaje con su cámara de fotos. Aquella experiencia le dio muchísimo conocimiento, aunque lo dejó sin dinero.</p>
+      <p>El 1 de febrero de 1978, a los 41 años, murió en un accidente de tránsito mientras cabalgaba hacia Yapeyú, en Corrientes. Llevaba un cofre con tierra de Boulogne-sur-Mer, la ciudad francesa donde murió San Martín, para depositarlo en su homenaje.</p>
+      <p>Su hija Yamila Cafrune sigue cantando y continúa su legado.</p>
+    </div>
+  </details>
+
+  <footer>
+    <!-- Podés agregar acá los créditos: narración, música y licencia, y un enlace a las grabaciones oficiales -->
+    Fuente: <a href="https://www.argentina.gob.ar/noticias/jorge-cafrune-el-cantor-del-pueblo" target="_blank" rel="noopener">Presidencia de la Nación, Argentina.gob.ar (2024)</a>
+  </footer>
+</main>
+
+<script>
+(function(){
+  var audio=document.getElementById('audio'), player=document.getElementById('player'),
+      btn=document.getElementById('play'), barra=document.getElementById('barra'),
+      actual=document.getElementById('actual'), total=document.getElementById('total'),
+      aviso=document.getElementById('aviso');
+
+  // Con JavaScript activo se usa el reproductor propio; si falla, queda el nativo.
+  audio.removeAttribute('controls');
+  audio.style.display='none';
+
+  function fmt(s){
+    if(!isFinite(s)) return '0:00';
+    var m=Math.floor(s/60), r=Math.floor(s%60);
+    return m+':'+(r<10?'0':'')+r;
+  }
+  function pintar(){
+    var p=audio.duration?(audio.currentTime/audio.duration)*100:0;
+    barra.value=p*10;
+    barra.style.setProperty('--p',p+'%');
+    actual.textContent=fmt(audio.currentTime);
+  }
+
+  btn.addEventListener('click',function(){
+    if(audio.paused){ audio.play().catch(function(){ aviso.hidden=false; }); }
+    else{ audio.pause(); }
+  });
+  audio.addEventListener('play',function(){
+    player.classList.add('playing'); btn.setAttribute('aria-label','Pausar audio');
+  });
+  audio.addEventListener('pause',function(){
+    player.classList.remove('playing'); btn.setAttribute('aria-label','Reproducir audio');
+  });
+  audio.addEventListener('ended',function(){ audio.currentTime=0; pintar(); });
+  audio.addEventListener('timeupdate',pintar);
+  audio.addEventListener('loadedmetadata',function(){ total.textContent=fmt(audio.duration); });
+  audio.addEventListener('error',function(){ aviso.hidden=false; });
+  barra.addEventListener('input',function(){
+    if(audio.duration){ audio.currentTime=(barra.value/1000)*audio.duration; }
+  });
+})();
+</script>
+</body>
+</html>
