@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#1b2638">
-<title>Audioguía: Jorge Cafrune, el cantor del pueblo</title>
+<title>Audioguía: Jorge Antonio Cafrune, el cantor del pueblo</title>
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -29,7 +29,7 @@
   main{max-width:30rem;margin:0 auto;padding:2.25rem 1.25rem 2.5rem}
 
   h1{font-family:var(--serif);font-weight:800;font-size:clamp(2.8rem,13vw,3.8rem);
-     line-height:1;letter-spacing:-.01em;text-align:center;margin:0}
+     line-height:1;letter-spacing:-.01em;text-align:center;margin:0;text-wrap:balance}
   .sub{font-family:var(--serif);font-style:italic;font-weight:500;font-size:1.6rem;
        color:var(--gold);text-align:center;margin:.4rem 0 .5rem}
   .lugar{text-align:center;color:var(--muted);font-size:1.05rem;margin:0 auto 1.9rem;max-width:22rem}
@@ -78,6 +78,9 @@
   .volumen.abierto .vol-slider{width:5rem;visibility:visible;transition:width .25s ease, visibility 0s}
   .vol-slider input{flex:none;width:4.5rem;margin:0 .25rem}
 
+  .titulo{font-family:var(--serif);font-weight:700;font-size:1.15rem;
+          text-align:center;color:var(--gold);margin:.8rem 0 0}
+
   .aviso{margin:.9rem .6rem 0;text-align:center;color:var(--muted);font-size:1rem}
 
   details{margin-top:2.2rem;border-top:1px solid #34425a}
@@ -98,7 +101,7 @@
 <div class="tejido" aria-hidden="true"></div>
 
 <main>
-  <h1>Jorge Cafrune</h1>
+  <h1>Jorge A. Cafrune</h1>
   <p class="sub">El cantor del pueblo</p>
   <p class="lugar">Monumento en la plaza Domingo Teófilo Pérez, El Carmen, Jujuy</p>
 
@@ -123,6 +126,7 @@
       </button>
     </div>
   </section>
+  <p class="titulo">Escuchá su historia</p>
   <p class="aviso" id="aviso" role="status" hidden>No se pudo cargar el audio. Recargá la página para intentar de nuevo.</p>
 
   <audio id="audio" controls preload="metadata" src="audio-cafrune.mp3"></audio>
