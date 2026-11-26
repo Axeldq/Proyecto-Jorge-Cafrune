@@ -62,8 +62,27 @@
   input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:var(--wine);border:2px solid var(--ink)}
   .tiempos{display:flex;justify-content:space-between;font-size:.95rem;color:#4b5567;
            font-variant-numeric:tabular-nums;margin-top:-.1rem}
-  .volumen{grid-column:1 / -1;display:flex;align-items:center;gap:.7rem;color:#4b5567;margin-top:-.2rem}
-  .volumen input{margin:0}
+
+  /* Volumen: ícono que despliega la barra al tocarlo */
+  .volumen{display:flex;align-items:center;justify-content:flex-end;color:#4b5567;margin-top:.1rem}
+  .vol-btn{flex:none;width:36px;height:32px;padding:0;border:0;border-radius:8px;background:transparent;
+           color:inherit;display:grid;place-items:center;cursor:pointer}
+  .vol-btn:hover{color:var(--wine)}
+  .vol-btn:focus-visible{outline:3px solid var(--wine);outline-offset:2px}
+  .vol-btn svg{width:20px;height:20px;fill:currentColor}
+  .vol-btn .i-mute{display:none}
+  .volumen.silencio .i-on{display:none}
+  .volumen.silencio .i-mute{display:block}
+  .vol-slider{width:0;overflow:hidden;display:flex;align-items:center;visibility:hidden;
+              transition:width .25s ease, visibility 0s .25s}
+  .volumen.abierto .vol-slider{width:7rem;visibility:visible;transition:width .25s ease, visibility 0s}
+  .vol-slider input{flex:none;width:6.5rem;height:20px;margin:0 .25rem}
+  .vol-slider input::-webkit-slider-runnable-track{height:4px;border-radius:2px}
+  .vol-slider input::-webkit-slider-thumb{width:14px;height:14px;margin-top:-5px}
+  .vol-slider input::-moz-range-track{height:4px;border-radius:2px}
+  .vol-slider input::-moz-range-progress{height:4px;border-radius:2px}
+  .vol-slider input::-moz-range-thumb{width:10px;height:10px}
+
   .aviso{margin:.9rem .6rem 0;text-align:center;color:var(--muted);font-size:1rem}
 
   details{margin-top:2.2rem;border-top:1px solid #34425a}
@@ -101,10 +120,15 @@
       <p class="titulo">Escuchá su historia</p>
       <input id="barra" type="range" min="0" max="1000" value="0" step="1" aria-label="Posición del audio">
       <div class="tiempos"><span id="actual">0:00</span><span id="total">0:00</span></div>
-    </div>
-    <div class="volumen" id="volumen">
-      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" fill="currentColor"><path d="M3 9v6h4l5 4V5L7 9H3zm13.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4z"/></svg>
-      <input id="vol" type="range" min="0" max="100" value="50" step="1" aria-label="Volumen">
+      <div class="volumen" id="volumen">
+        <div class="vol-slider">
+          <input id="vol" type="range" min="0" max="100" value="50" step="1" aria-label="Volumen">
+        </div>
+        <button class="vol-btn" id="volbtn" type="button" aria-label="Volumen" aria-expanded="false">
+          <svg class="i-on" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 4V5L7 9H3zm13.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4z"/></svg>
+          <svg class="i-mute" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 4V5L7 9H3zm13.3.3 1.4-1.4 2.3 2.3 2.3-2.3 1.4 1.4-2.3 2.3 2.3 2.3-1.4 1.4-2.3-2.3-2.3 2.3-1.4-1.4 2.3-2.3-2.3-2.3z"/></svg>
+        </button>
+      </div>
     </div>
   </section>
   <p class="aviso" id="aviso" role="status" hidden>No se pudo cargar el audio. Recargá la página para intentar de nuevo.</p>
@@ -174,11 +198,31 @@
     if(audio.duration){ audio.currentTime=(barra.value/1000)*audio.duration; }
   });
 
-  // Volumen: empieza en el medio. En iPhone el navegador lo ignora, así que se oculta.
-  var vol=document.getElementById('vol'), cajaVol=document.getElementById('volumen');
+  // Volumen: empieza en el medio, se despliega al tocar el parlante.
+  // En iPhone el navegador ignora el volumen de la página, así que se oculta.
+  var vol=document.getElementById('vol'), cajaVol=document.getElementById('volumen'),
+      btnVol=document.getElementById('volbtn');
   audio.volume=0.5;
   if(audio.volume!==0.5){ cajaVol.style.display='none'; }
-  function pintarVol(){ vol.style.setProperty('--p',vol.value+'%'); }
+
+  function pintarVol(){
+    vol.style.setProperty('--p',vol.value+'%');
+    cajaVol.classList.toggle('silencio', Number(vol.value)===0);
+  }
+  function abrirVol(abrir){
+    cajaVol.classList.toggle('abierto',abrir);
+    btnVol.setAttribute('aria-expanded',abrir?'true':'false');
+  }
+  btnVol.addEventListener('click',function(e){
+    e.stopPropagation();
+    abrirVol(!cajaVol.classList.contains('abierto'));
+  });
+  document.addEventListener('click',function(e){
+    if(!cajaVol.contains(e.target)){ abrirVol(false); }
+  });
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape'){ abrirVol(false); }
+  });
   vol.addEventListener('input',function(){
     audio.volume=vol.value/100;
     pintarVol();
