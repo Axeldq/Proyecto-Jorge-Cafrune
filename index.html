@@ -38,34 +38,34 @@
         outline:2px solid var(--gold);outline-offset:6px;aspect-ratio:3/4;background:#243249}
   .foto img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 85%}
 
-  .player{position:relative;margin:-2.6rem .6rem 0;background:var(--ink);color:var(--bg);
-          border-radius:1.1rem;padding:1rem 1.1rem;display:grid;grid-template-columns:auto 1fr;
-          gap:.95rem;align-items:center;box-shadow:0 12px 32px rgba(0,0,0,.4)}
-  .play{width:68px;height:68px;border-radius:50%;border:0;background:var(--gold);color:var(--bg);
+  /* Reproductor: una sola fila en forma de píldora */
+  .player{position:relative;margin:-1.75rem .6rem 0;background:var(--ink);color:var(--bg);
+          border-radius:999px;padding:.45rem .8rem .45rem .5rem;display:flex;align-items:center;
+          gap:.6rem;box-shadow:0 8px 22px rgba(0,0,0,.4)}
+  .play{flex:none;width:40px;height:40px;border-radius:50%;border:0;background:var(--gold);color:var(--bg);
         display:grid;place-items:center;cursor:pointer}
   .play:hover{background:#eab547}
   .play:focus-visible,input[type=range]:focus-visible{outline:3px solid var(--wine);outline-offset:3px}
-  .play svg{width:30px;height:30px;fill:currentColor}
+  .play svg{width:18px;height:18px;fill:currentColor}
   .play .i-pause{display:none}
   .playing .i-play{display:none}
   .playing .i-pause{display:block}
-  .titulo{font-family:var(--serif);font-weight:700;font-size:1.3rem;line-height:1.1;margin:0}
 
-  input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:26px;margin:.15rem 0 0;
+  .tiempos{flex:none;font-size:.95rem;color:#4b5567;font-variant-numeric:tabular-nums;white-space:nowrap}
+
+  input[type=range]{-webkit-appearance:none;appearance:none;flex:1;min-width:0;height:20px;margin:0;
         background:transparent;cursor:pointer}
-  input[type=range]::-webkit-slider-runnable-track{height:6px;border-radius:3px;
+  input[type=range]::-webkit-slider-runnable-track{height:4px;border-radius:2px;
         background:linear-gradient(to right,var(--wine) var(--p,0%),#c9c4b6 var(--p,0%))}
-  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;margin-top:-6px;
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;margin-top:-5px;
         border-radius:50%;background:var(--wine);border:2px solid var(--ink)}
-  input[type=range]::-moz-range-track{height:6px;border-radius:3px;background:#c9c4b6}
-  input[type=range]::-moz-range-progress{height:6px;border-radius:3px;background:var(--wine)}
-  input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:var(--wine);border:2px solid var(--ink)}
-  .tiempos{display:flex;justify-content:space-between;font-size:.95rem;color:#4b5567;
-           font-variant-numeric:tabular-nums;margin-top:-.1rem}
+  input[type=range]::-moz-range-track{height:4px;border-radius:2px;background:#c9c4b6}
+  input[type=range]::-moz-range-progress{height:4px;border-radius:2px;background:var(--wine)}
+  input[type=range]::-moz-range-thumb{width:10px;height:10px;border-radius:50%;background:var(--wine);border:2px solid var(--ink)}
 
   /* Volumen: ícono que despliega la barra al tocarlo */
-  .volumen{display:flex;align-items:center;justify-content:flex-end;color:#4b5567;margin-top:.1rem}
-  .vol-btn{flex:none;width:36px;height:32px;padding:0;border:0;border-radius:8px;background:transparent;
+  .volumen{flex:none;display:flex;align-items:center;color:#4b5567}
+  .vol-btn{flex:none;width:32px;height:32px;padding:0;border:0;border-radius:8px;background:transparent;
            color:inherit;display:grid;place-items:center;cursor:pointer}
   .vol-btn:hover{color:var(--wine)}
   .vol-btn:focus-visible{outline:3px solid var(--wine);outline-offset:2px}
@@ -75,13 +75,8 @@
   .volumen.silencio .i-mute{display:block}
   .vol-slider{width:0;overflow:hidden;display:flex;align-items:center;visibility:hidden;
               transition:width .25s ease, visibility 0s .25s}
-  .volumen.abierto .vol-slider{width:7rem;visibility:visible;transition:width .25s ease, visibility 0s}
-  .vol-slider input{flex:none;width:6.5rem;height:20px;margin:0 .25rem}
-  .vol-slider input::-webkit-slider-runnable-track{height:4px;border-radius:2px}
-  .vol-slider input::-webkit-slider-thumb{width:14px;height:14px;margin-top:-5px}
-  .vol-slider input::-moz-range-track{height:4px;border-radius:2px}
-  .vol-slider input::-moz-range-progress{height:4px;border-radius:2px}
-  .vol-slider input::-moz-range-thumb{width:10px;height:10px}
+  .volumen.abierto .vol-slider{width:5rem;visibility:visible;transition:width .25s ease, visibility 0s}
+  .vol-slider input{flex:none;width:4.5rem;margin:0 .25rem}
 
   .aviso{margin:.9rem .6rem 0;text-align:center;color:var(--muted);font-size:1rem}
 
@@ -111,24 +106,21 @@
     <img src="monumento.jpg" alt="Monumento a Jorge Cafrune: figura sentada con sombrero y guitarra, frente a la iglesia de El Carmen">
   </figure>
 
-  <section class="player" id="player" aria-label="Reproductor de la audioguía">
+  <section class="player" id="player" aria-label="Escuchá su historia">
     <button class="play" id="play" type="button" aria-label="Reproducir audio">
       <svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z"/></svg>
       <svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="5" width="4.2" height="14" rx="1"/><rect x="13.8" y="5" width="4.2" height="14" rx="1"/></svg>
     </button>
-    <div>
-      <p class="titulo">Escuchá su historia</p>
-      <input id="barra" type="range" min="0" max="1000" value="0" step="1" aria-label="Posición del audio">
-      <div class="tiempos"><span id="actual">0:00</span><span id="total">0:00</span></div>
-      <div class="volumen" id="volumen">
-        <div class="vol-slider">
-          <input id="vol" type="range" min="0" max="100" value="50" step="1" aria-label="Volumen">
-        </div>
-        <button class="vol-btn" id="volbtn" type="button" aria-label="Volumen" aria-expanded="false">
-          <svg class="i-on" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 4V5L7 9H3zm13.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4z"/></svg>
-          <svg class="i-mute" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 4V5L7 9H3zm13.3.3 1.4-1.4 2.3 2.3 2.3-2.3 1.4 1.4-2.3 2.3 2.3 2.3-1.4 1.4-2.3-2.3-2.3 2.3-1.4-1.4 2.3-2.3-2.3-2.3z"/></svg>
-        </button>
+    <div class="tiempos"><span id="actual">0:00</span> / <span id="total">0:00</span></div>
+    <input id="barra" type="range" min="0" max="1000" value="0" step="1" aria-label="Posición del audio">
+    <div class="volumen" id="volumen">
+      <div class="vol-slider">
+        <input id="vol" type="range" min="0" max="100" value="50" step="1" aria-label="Volumen">
       </div>
+      <button class="vol-btn" id="volbtn" type="button" aria-label="Volumen" aria-expanded="false">
+        <svg class="i-on" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 4V5L7 9H3zm13.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4z"/></svg>
+        <svg class="i-mute" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 4V5L7 9H3zm13.3.3 1.4-1.4 2.3 2.3 2.3-2.3 1.4 1.4-2.3 2.3 2.3 2.3-1.4 1.4-2.3-2.3-2.3 2.3-1.4-1.4 2.3-2.3-2.3-2.3z"/></svg>
+      </button>
     </div>
   </section>
   <p class="aviso" id="aviso" role="status" hidden>No se pudo cargar el audio. Recargá la página para intentar de nuevo.</p>
