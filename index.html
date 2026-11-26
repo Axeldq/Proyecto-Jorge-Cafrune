@@ -62,6 +62,8 @@
   input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:var(--wine);border:2px solid var(--ink)}
   .tiempos{display:flex;justify-content:space-between;font-size:.95rem;color:#4b5567;
            font-variant-numeric:tabular-nums;margin-top:-.1rem}
+  .volumen{grid-column:1 / -1;display:flex;align-items:center;gap:.7rem;color:#4b5567;margin-top:-.2rem}
+  .volumen input{margin:0}
   .aviso{margin:.9rem .6rem 0;text-align:center;color:var(--muted);font-size:1rem}
 
   details{margin-top:2.2rem;border-top:1px solid #34425a}
@@ -100,6 +102,10 @@
       <input id="barra" type="range" min="0" max="1000" value="0" step="1" aria-label="Posición del audio">
       <div class="tiempos"><span id="actual">0:00</span><span id="total">0:00</span></div>
     </div>
+    <div class="volumen" id="volumen">
+      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" fill="currentColor"><path d="M3 9v6h4l5 4V5L7 9H3zm13.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4z"/></svg>
+      <input id="vol" type="range" min="0" max="100" value="50" step="1" aria-label="Volumen">
+    </div>
   </section>
   <p class="aviso" id="aviso" role="status" hidden>No se pudo cargar el audio. Recargá la página para intentar de nuevo.</p>
 
@@ -122,8 +128,8 @@
 
   <footer>
     <!-- Creditos, fuentes y licencia -->
-    Fuente: <a href="https://www.argentina.gob.ar/noticias/jorge-cafrune-el-cantor-del-pueblo" target="_blank" rel="noopener">Presidencia de la Nación, Argentina.gob.ar (2024)</a>
-            <a href="https://www.facebook.com/ElCarmenTurismoJujuy" taget="_blank" rel="noopener">El Carmen Turismo - Jujuy Argentina</a>
+    Fuente: <a href="https://www.argentina.gob.ar/noticias/jorge-cafrune-el-cantor-del-pueblo" target="_blank" rel="noopener">Presidencia de la Nación, Argentina.gob.ar (2024)</a><br>
+    <a href="https://www.facebook.com/ElCarmenTurismoJujuy" target="_blank" rel="noopener">El Carmen Turismo - Jujuy Argentina</a>
   </footer>
 </main>
 
@@ -167,6 +173,17 @@
   barra.addEventListener('input',function(){
     if(audio.duration){ audio.currentTime=(barra.value/1000)*audio.duration; }
   });
+
+  // Volumen: empieza en el medio. En iPhone el navegador lo ignora, así que se oculta.
+  var vol=document.getElementById('vol'), cajaVol=document.getElementById('volumen');
+  audio.volume=0.5;
+  if(audio.volume!==0.5){ cajaVol.style.display='none'; }
+  function pintarVol(){ vol.style.setProperty('--p',vol.value+'%'); }
+  vol.addEventListener('input',function(){
+    audio.volume=vol.value/100;
+    pintarVol();
+  });
+  pintarVol();
 })();
 </script>
 </body>
